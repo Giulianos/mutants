@@ -28,6 +28,7 @@ func TestIsMutant(t *testing.T) {
 	}{
 		{DNA{"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"}, true },
 		{DNA{"ATGCGA","CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"}, false},
+		{DNA{}, false},
 	}
 
 	for i, test := range tests {
