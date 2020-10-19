@@ -1,8 +1,8 @@
 package analyzer
 
-// CountRepetitions counts, at most, limit repetitions
+// countRepetitions counts, at most, limit repetitions
 // of length nitrogenous bases in strand.
-func CountRepetitions(strand Strand, length, limit int) int {
+func countRepetitions(strand Strand, length, limit int) int {
 	currLen := 0
 	reps := 0
 	var prev rune
@@ -11,7 +11,7 @@ func CountRepetitions(strand Strand, length, limit int) int {
 			currLen = 0
 		}
 		currLen++
-		if  currLen >= length {
+		if currLen >= length {
 			reps++ // sequences can overlap
 		}
 		if limit > 0 && reps >= limit {
@@ -23,24 +23,24 @@ func CountRepetitions(strand Strand, length, limit int) int {
 	return reps
 }
 
-// IsMutant analyzes from a dna sample,
+// isMutant analyzes from a dna sample,
 // whether its or not a mutant
-func IsMutant(dna DNA) bool {
+func isMutant(dna DNA) bool {
 	gens := []StrandGenerator{
-		VerticalGen{dna},
-		HorizontalGen{dna},
-		DiagonalGen{dna},
-		AntiDiagonalGen{dna},
+		verticalGen{dna},
+		horizontalGen{dna},
+		diagonalGen{dna},
+		antiDiagonalGen{dna},
 	}
 
 	done := make(chan struct{})
 	defer close(done)
 
-	c := MergeGen{gens}.Generate(done)
+	c := mergeGen{gens}.Generate(done)
 
 	var repsCount int
 	for strand := range c {
-		repsCount += CountRepetitions(strand, 4, 2)
+		repsCount += countRepetitions(strand, 4, 2)
 		if repsCount >= 2 {
 			return true
 		}

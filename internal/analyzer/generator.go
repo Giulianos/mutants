@@ -6,14 +6,14 @@ import (
 	"sync"
 )
 
-// MergeGens receives generators channels
+// mergeGen receives generators channels
 // and merges them into a single channel
 // See: https://blog.go-lang.org/pipelines
-type MergeGen struct{
+type mergeGen struct {
 	Generators []StrandGenerator
 }
 
-func (gen MergeGen) Generate (done <-chan struct{}) <-chan Strand {
+func (gen mergeGen) Generate(done <-chan struct{}) <-chan Strand {
 	var wg sync.WaitGroup
 	out := make(chan Strand)
 
@@ -29,7 +29,7 @@ func (gen MergeGen) Generate (done <-chan struct{}) <-chan Strand {
 		}
 	}
 	wg.Add(len(gen.Generators))
-	for _, gen := range gen.Generators{
+	for _, gen := range gen.Generators {
 		go output(gen.Generate(done))
 	}
 
@@ -41,12 +41,12 @@ func (gen MergeGen) Generate (done <-chan struct{}) <-chan Strand {
 	return out
 }
 
-// HorizontalGen is a generator of horizontal strands
-type HorizontalGen struct {
+// horizontalGen is a generator of horizontal strands
+type horizontalGen struct {
 	dna DNA
 }
 
-func (gen HorizontalGen) Generate(done <-chan struct{}) <-chan Strand {
+func (gen horizontalGen) Generate(done <-chan struct{}) <-chan Strand {
 	out := make(chan Strand)
 	go func() {
 		defer close(out)
@@ -62,15 +62,16 @@ func (gen HorizontalGen) Generate(done <-chan struct{}) <-chan Strand {
 	return out
 }
 
-// VerticalGen is a generator of vertical strands
-type VerticalGen struct {
+// verticalGen is a generator of vertical strands
+type verticalGen struct {
 	dna DNA
 }
-func (gen VerticalGen) Generate(done <-chan struct{}) <-chan Strand {
+
+func (gen verticalGen) Generate(done <-chan struct{}) <-chan Strand {
 	out := make(chan Strand)
 	go func() {
 		defer close(out)
-		if len(gen.dna) == 0{
+		if len(gen.dna) == 0 {
 			return
 		}
 		for j := range gen.dna[0] {
@@ -92,12 +93,13 @@ func (gen VerticalGen) Generate(done <-chan struct{}) <-chan Strand {
 	return out
 }
 
-// DiagonalGen is a generator of
+// diagonalGen is a generator of
 // diagonal (top-left -> bottom-right) strands
-type DiagonalGen struct {
+type diagonalGen struct {
 	dna DNA
 }
-func (gen DiagonalGen) Generate(done <-chan struct{}) <-chan Strand {
+
+func (gen diagonalGen) Generate(done <-chan struct{}) <-chan Strand {
 	out := make(chan Strand)
 	go func() {
 		defer close(out)
@@ -120,12 +122,13 @@ func (gen DiagonalGen) Generate(done <-chan struct{}) <-chan Strand {
 	return out
 }
 
-// AntiDiagonalGen is a generator of
+// antiDiagonalGen is a generator of
 // anti-diagonal (top-right -> bottom-left) strands
-type AntiDiagonalGen struct {
+type antiDiagonalGen struct {
 	dna DNA
 }
-func (gen AntiDiagonalGen) Generate(done <-chan struct{}) <-chan Strand {
+
+func (gen antiDiagonalGen) Generate(done <-chan struct{}) <-chan Strand {
 	out := make(chan Strand)
 	go func() {
 		defer close(out)

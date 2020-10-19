@@ -15,7 +15,7 @@ func TestHorizontalGen(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		gen := HorizontalGen{test.dna}
+		gen := horizontalGen{test.dna}
 		done := make(chan struct{})
 		c := gen.Generate(done)
 		for _, expected := range test.strands {
@@ -40,7 +40,7 @@ func TestVerticalGen(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		gen := VerticalGen{test.dna}
+		gen := verticalGen{test.dna}
 		done := make(chan struct{})
 		c := gen.Generate(done)
 		for _, expected := range test.strands {
@@ -65,7 +65,7 @@ func TestDiagonalGen(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		gen := DiagonalGen{test.dna}
+		gen := diagonalGen{test.dna}
 		done := make(chan struct{})
 		c := gen.Generate(done)
 		for _, expected := range test.strands {
@@ -90,7 +90,7 @@ func TestAntiDiagonalGen(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		gen := AntiDiagonalGen{test.dna}
+		gen := antiDiagonalGen{test.dna}
 		done := make(chan struct{})
 		c := gen.Generate(done)
 		for _, expected := range test.strands {
@@ -130,10 +130,10 @@ func TestMergeGen(t *testing.T) {
 	for _, dna := range tests {
 		// create generators
 		gens := []StrandGenerator{
-			VerticalGen{dna},
-			HorizontalGen{dna},
-			DiagonalGen{dna},
-			AntiDiagonalGen{dna},
+			verticalGen{dna},
+			horizontalGen{dna},
+			diagonalGen{dna},
+			antiDiagonalGen{dna},
 		}
 
 		// build expected set
@@ -141,7 +141,7 @@ func TestMergeGen(t *testing.T) {
 
 		// merge generators
 		done := make(chan struct{})
-		c := MergeGen{gens}.Generate(done)
+		c := mergeGen{gens}.Generate(done)
 
 		var count int
 		for strand := range c {
@@ -171,14 +171,14 @@ func TestExplicitCancellation(t *testing.T) {
 	}
 
 	gens := []StrandGenerator{
-		VerticalGen{dna},
-		HorizontalGen{dna},
-		DiagonalGen{dna},
-		AntiDiagonalGen{dna},
+		verticalGen{dna},
+		horizontalGen{dna},
+		diagonalGen{dna},
+		antiDiagonalGen{dna},
 	}
 
 	done := make(chan struct{})
-	c := MergeGen{gens}.Generate(done)
+	c := mergeGen{gens}.Generate(done)
 
 	// cancell generator
 	close(done)

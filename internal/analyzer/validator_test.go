@@ -5,7 +5,7 @@ import "testing"
 func Test_validateDNA(t *testing.T) {
 	tests := []struct {
 		name string
-		dna DNA
+		dna  DNA
 		want bool
 	}{
 		{"valid dna", DNA{"ACTG", "CCTG", "AGGC", "TGGT"}, true},

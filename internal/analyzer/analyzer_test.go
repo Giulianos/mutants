@@ -15,24 +15,24 @@ func TestCountRepetitions(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if count := CountRepetitions(test.strand, 4, 3); count != test.expected {
+		if count := countRepetitions(test.strand, 4, 3); count != test.expected {
 			t.Errorf("expected %d reps, got %d", test.expected, count)
 		}
 	}
 }
 
 func TestIsMutant(t *testing.T) {
-	tests := []struct{
-		dna DNA
+	tests := []struct {
+		dna      DNA
 		expected bool
 	}{
-		{DNA{"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"}, true },
-		{DNA{"ATGCGA","CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"}, false},
+		{DNA{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"}, true},
+		{DNA{"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"}, false},
 		{DNA{}, false},
 	}
 
 	for i, test := range tests {
-		if IsMutant(test.dna) != test.expected {
+		if isMutant(test.dna) != test.expected {
 			t.Errorf("failed test %d", i)
 		}
 	}

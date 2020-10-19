@@ -25,7 +25,7 @@ func PostController(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// analyze dna and answer accordingly
-	if IsMutant(data.DNA) {
+	if isMutant(data.DNA) {
 		w.WriteHeader(http.StatusOK)
 		return
 	}
