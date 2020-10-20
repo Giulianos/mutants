@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-deployment
+  labels:
+    app: stats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats
+  template:
+    metadata:
+      labels:
+        app: stats
+    spec:
+      containers:
+        - env:
+            - name: MONGO_HOST
+              value: mongodb://mongo-service:27017
+            - name: NSQ_LOOKUP
+              value: nsqlookupd-service:4161
+          image: us.gcr.io/total-array-293006/mutants_stats:1.1
+          name: stats
+          ports:
+            - containerPort: 80
+      restartPolicy: Always

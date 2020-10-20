@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nsqd-deployment
+  labels:
+    app: nsqd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nsqd
+  template:
+    metadata:
+      labels:
+        app: nsqd
+    spec:
+      containers:
+        - image: nsqio/nsq
+          name: nsqd
+          command: ["/nsqd"]
+          args: ["-lookupd-tcp-address=nsqlookupd-service:4160", "-broadcast-address=nsqd-service"]
+          ports:
+            - containerPort: 4150
+            - containerPort: 4151
+      restartPolicy: Always

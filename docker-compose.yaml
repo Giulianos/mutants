@@ -1,0 +1,46 @@
+version: '3'
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - stats
+      - analyzer
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4171"
+  mongo:
+    image: mongo
+  stats:
+    build:
+      context: .
+      dockerfile: stats.Dockerfile
+    environment:
+      - MONGO_HOST=mongodb://mongo:27017
+      - NSQ_LOOKUP=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
+      - mongo
+  analyzer:
+    build:
+      context: .
+      dockerfile: analyzer.Dockerfile
+    environment:
+      - NSQD_HOST=nsqd:4151
+    depends_on:
+      - nsqd

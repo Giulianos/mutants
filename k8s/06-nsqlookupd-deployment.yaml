@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nsqlookupd-deployment
+  labels:
+    app: nsqlookupd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nsqlookupd
+  template:
+    metadata:
+      labels:
+        app: nsqlookupd
+    spec:
+      containers:
+        - image: nsqio/nsq
+          name: nsqlookupd
+          command: ["/nsqlookupd"]
+          ports:
+            - containerPort: 4160
+            - containerPort: 4161
+      restartPolicy: Always
