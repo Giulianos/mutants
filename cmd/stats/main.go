@@ -41,6 +41,7 @@ func main() {
 	// define routes
 	r := mux.NewRouter()
 	r.Handle("/stats", stats.NewController(service)).Methods("GET")
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusOK) })
 
 	// create http server
 	s := http.Server{

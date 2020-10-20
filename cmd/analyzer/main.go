@@ -26,6 +26,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.Handle("/mutant", analyzer.NewController(eventPublisher)).Methods("POST")
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusOK) })
 
 	s := http.Server{
 		Addr:         ":80",
