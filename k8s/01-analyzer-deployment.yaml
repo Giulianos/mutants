@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analyzer-deployment
+  labels:
+    app: analyzer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: analyzer
+  template:
+    metadata:
+      labels:
+        app: analyzer
+    spec:
+      containers:
+        - env:
+            - name: NSQD_HOST
+              value: nsqd-service:4151
+          image: us.gcr.io/total-array-293006/mutants_analyzer:1.1
+          name: analyzer
+          ports:
+            - containerPort: 80
+      restartPolicy: Always

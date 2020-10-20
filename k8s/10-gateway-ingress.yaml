@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: gateway
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /stats
+            backend:
+              serviceName: stats-service
+              servicePort: 80
+          - path: /*
+            backend:
+              serviceName: analyzer-service
+              servicePort: 80
