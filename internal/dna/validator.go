@@ -1,11 +1,11 @@
-package analyzer
+package dna
 
 import (
 	"fmt"
 	"regexp"
 )
 
-func validateDNA(dna DNA) bool {
+func Validate(dna DNA) bool {
 	N := len(dna)
 	re, _ := regexp.Compile(fmt.Sprintf("[ACTG]{%d}", N))
 

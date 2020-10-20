@@ -1,11 +1,14 @@
-package analyzer
+package dna
 
 import "testing"
 
-func Test_validateDNA(t *testing.T) {
+func TestValidateDNA(t *testing.T) {
+	type args struct {
+		dna DNA
+	}
 	tests := []struct {
 		name string
-		dna  DNA
+		dna DNA
 		want bool
 	}{
 		{"valid dna", DNA{"ACTG", "CCTG", "AGGC", "TGGT"}, true},
@@ -15,8 +18,8 @@ func Test_validateDNA(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := validateDNA(tt.dna); got != tt.want {
-				t.Errorf("validateDNA() = %v, want %v", got, tt.want)
+			if got := Validate(tt.dna); got != tt.want {
+				t.Errorf("Validate() = %v, want %v", got, tt.want)
 			}
 		})
 	}

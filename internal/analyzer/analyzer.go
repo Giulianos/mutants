@@ -1,5 +1,7 @@
 package analyzer
 
+import "github.com/Giulianos/mutants/internal/dna"
+
 // countRepetitions counts, at most, limit repetitions
 // of length nitrogenous bases in strand.
 func countRepetitions(strand Strand, length, limit int) int {
@@ -25,7 +27,7 @@ func countRepetitions(strand Strand, length, limit int) int {
 
 // isMutant analyzes from a dna sample,
 // whether its or not a mutant
-func isMutant(dna DNA) bool {
+func isMutant(dna dna.DNA) bool {
 	gens := []StrandGenerator{
 		verticalGen{dna},
 		horizontalGen{dna},

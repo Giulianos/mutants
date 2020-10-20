@@ -1,17 +1,18 @@
 package analyzer
 
 import (
+	"github.com/Giulianos/mutants/internal/dna"
 	"testing"
 )
 
 func TestHorizontalGen(t *testing.T) {
 	tests := []struct {
-		dna     DNA
+		dna     dna.DNA
 		strands []Strand
 	}{
-		{DNA{"AA", "CC"}, []Strand{"AA", "CC"}},
-		{DNA{"ACT", "TGC", "TTC"}, []Strand{"ACT", "TGC", "TTC"}},
-		{DNA{}, []Strand{}},
+		{dna.DNA{"AA", "CC"}, []Strand{"AA", "CC"}},
+		{dna.DNA{"ACT", "TGC", "TTC"}, []Strand{"ACT", "TGC", "TTC"}},
+		{dna.DNA{}, []Strand{}},
 	}
 
 	for _, test := range tests {
@@ -31,12 +32,12 @@ func TestHorizontalGen(t *testing.T) {
 
 func TestVerticalGen(t *testing.T) {
 	tests := []struct {
-		dna     DNA
+		dna     dna.DNA
 		strands []Strand
 	}{
-		{DNA{"AA", "CC"}, []Strand{"AC", "AC"}},
-		{DNA{"ACT", "TGC", "TTC"}, []Strand{"ATT", "CGT", "TCC"}},
-		{DNA{}, []Strand{}},
+		{dna.DNA{"AA", "CC"}, []Strand{"AC", "AC"}},
+		{dna.DNA{"ACT", "TGC", "TTC"}, []Strand{"ATT", "CGT", "TCC"}},
+		{dna.DNA{}, []Strand{}},
 	}
 
 	for _, test := range tests {
@@ -56,12 +57,12 @@ func TestVerticalGen(t *testing.T) {
 
 func TestDiagonalGen(t *testing.T) {
 	tests := []struct {
-		dna     DNA
+		dna     dna.DNA
 		strands []Strand
 	}{
-		{DNA{"AT", "CC"}, []Strand{"C", "AC", "T"}},
-		{DNA{"ACT", "TGC", "TTC"}, []Strand{"T", "TT", "AGC", "CC", "T"}},
-		{DNA{}, []Strand{}},
+		{dna.DNA{"AT", "CC"}, []Strand{"C", "AC", "T"}},
+		{dna.DNA{"ACT", "TGC", "TTC"}, []Strand{"T", "TT", "AGC", "CC", "T"}},
+		{dna.DNA{}, []Strand{}},
 	}
 
 	for _, test := range tests {
@@ -81,12 +82,12 @@ func TestDiagonalGen(t *testing.T) {
 
 func TestAntiDiagonalGen(t *testing.T) {
 	tests := []struct {
-		dna     DNA
+		dna     dna.DNA
 		strands []Strand
 	}{
-		{DNA{"AT", "CC"}, []Strand{"A", "TC", "C"}},
-		{DNA{"ACT", "TGC", "TTC"}, []Strand{"A", "CT", "TGT", "CT", "C"}},
-		{DNA{}, []Strand{}},
+		{dna.DNA{"AT", "CC"}, []Strand{"A", "TC", "C"}},
+		{dna.DNA{"ACT", "TGC", "TTC"}, []Strand{"A", "CT", "TGT", "CT", "C"}},
+		{dna.DNA{}, []Strand{}},
 	}
 
 	for _, test := range tests {
@@ -121,19 +122,19 @@ func createStrandSet(generators []StrandGenerator) (int, map[Strand]bool) {
 }
 
 func TestMergeGen(t *testing.T) {
-	tests := []DNA{
+	tests := []dna.DNA{
 		{"AT", "CC"},
 		{"ACT", "TGC", "TTC"},
 		{},
 	}
 
-	for _, dna := range tests {
+	for _, dnaSeq := range tests {
 		// create generators
 		gens := []StrandGenerator{
-			verticalGen{dna},
-			horizontalGen{dna},
-			diagonalGen{dna},
-			antiDiagonalGen{dna},
+			verticalGen{dnaSeq},
+			horizontalGen{dnaSeq},
+			diagonalGen{dnaSeq},
+			antiDiagonalGen{dnaSeq},
 		}
 
 		// build expected set
@@ -159,7 +160,7 @@ func TestMergeGen(t *testing.T) {
 }
 
 func TestExplicitCancellation(t *testing.T) {
-	dna := DNA{
+	dnaSeq := dna.DNA{
 		"ACTTAGTG",
 		"CATAGTTA",
 		"ATGCAATG",
@@ -171,10 +172,10 @@ func TestExplicitCancellation(t *testing.T) {
 	}
 
 	gens := []StrandGenerator{
-		verticalGen{dna},
-		horizontalGen{dna},
-		diagonalGen{dna},
-		antiDiagonalGen{dna},
+		verticalGen{dnaSeq},
+		horizontalGen{dnaSeq},
+		diagonalGen{dnaSeq},
+		antiDiagonalGen{dnaSeq},
 	}
 
 	done := make(chan struct{})

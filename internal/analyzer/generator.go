@@ -1,6 +1,7 @@
 package analyzer
 
 import (
+	"github.com/Giulianos/mutants/internal/dna"
 	"github.com/Giulianos/mutants/internal/util"
 	"strings"
 	"sync"
@@ -43,7 +44,7 @@ func (gen mergeGen) Generate(done <-chan struct{}) <-chan Strand {
 
 // horizontalGen is a generator of horizontal strands
 type horizontalGen struct {
-	dna DNA
+	dna dna.DNA
 }
 
 func (gen horizontalGen) Generate(done <-chan struct{}) <-chan Strand {
@@ -64,7 +65,7 @@ func (gen horizontalGen) Generate(done <-chan struct{}) <-chan Strand {
 
 // verticalGen is a generator of vertical strands
 type verticalGen struct {
-	dna DNA
+	dna dna.DNA
 }
 
 func (gen verticalGen) Generate(done <-chan struct{}) <-chan Strand {
@@ -96,7 +97,7 @@ func (gen verticalGen) Generate(done <-chan struct{}) <-chan Strand {
 // diagonalGen is a generator of
 // diagonal (top-left -> bottom-right) strands
 type diagonalGen struct {
-	dna DNA
+	dna dna.DNA
 }
 
 func (gen diagonalGen) Generate(done <-chan struct{}) <-chan Strand {
@@ -125,7 +126,7 @@ func (gen diagonalGen) Generate(done <-chan struct{}) <-chan Strand {
 // antiDiagonalGen is a generator of
 // anti-diagonal (top-right -> bottom-left) strands
 type antiDiagonalGen struct {
-	dna DNA
+	dna dna.DNA
 }
 
 func (gen antiDiagonalGen) Generate(done <-chan struct{}) <-chan Strand {

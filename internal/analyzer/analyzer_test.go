@@ -1,6 +1,9 @@
 package analyzer
 
-import "testing"
+import (
+	"github.com/Giulianos/mutants/internal/dna"
+	"testing"
+)
 
 func TestCountRepetitions(t *testing.T) {
 	tests := []struct {
@@ -23,12 +26,12 @@ func TestCountRepetitions(t *testing.T) {
 
 func TestIsMutant(t *testing.T) {
 	tests := []struct {
-		dna      DNA
+		dna      dna.DNA
 		expected bool
 	}{
-		{DNA{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"}, true},
-		{DNA{"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"}, false},
-		{DNA{}, false},
+		{dna.DNA{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"}, true},
+		{dna.DNA{"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"}, false},
+		{dna.DNA{}, false},
 	}
 
 	for i, test := range tests {
