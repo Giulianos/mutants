@@ -14,7 +14,7 @@ func TestValidateDNA(t *testing.T) {
 		{"valid dna", DNA{"ACTG", "CCTG", "AGGC", "TGGT"}, true},
 		{"valid empty dna", DNA{}, true},
 		{"invalid dna with lowercase", DNA{"actg", "cctg", "aggc", "tggt"}, false},
-		{"invalid dna dimensions", DNA{"actg", "cctg", "aggc"}, false},
+		{"invalid dna dimensions", DNA{"ACTG", "CG"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

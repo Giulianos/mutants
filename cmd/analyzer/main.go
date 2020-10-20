@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// create deps
-	eventPublisher := analyzer.NewEventPublisher(nsqdHost)
+	eventPublisher := analyzer.NewNSQEventPublisher(nsqdHost)
 
 	r := mux.NewRouter()
 	r.Handle("/mutant", analyzer.NewController(eventPublisher)).Methods("POST")

@@ -7,7 +7,7 @@ import (
 
 func Validate(dna DNA) bool {
 	N := len(dna)
-	re, _ := regexp.Compile(fmt.Sprintf("[ACTG]{%d}", N))
+	re, _ := regexp.Compile(fmt.Sprintf("^[ACTG]{%d}$", N))
 
 	for _, s := range dna {
 		if !re.MatchString(s) {
